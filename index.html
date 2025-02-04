@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List App</h1>
+        
+        <div id="projects-container">
+            <!-- Projects will be dynamically inserted here -->
+        </div>
+
+        <!-- Template for a project -->
+        <template id="project-template">
+            <div class="project">
+                <h2>Project: <span class="project-title"></span></h2>
+                <ul class="todo-list">
+                    <!-- Todo items will be dynamically inserted here -->
+                </ul>
+            </div>
+        </template>
+
+        <!-- Template for a todo item -->
+        <div class="create-task-form">
+            <h2>Create a New Task</h2>
+            <form id="taskForm">
+                <label for="task-title">Title:</label>
+                <input type="text" id="task-title" name="task-title" required>
+
+                <label for="task-description">Description:</label>
+                <textarea id="task-description" name="task-description" required></textarea>
+
+                <label for="task-due-date">Due Date:</label>
+                <input type="date" id="task-due-date" name="task-due-date" required>
+
+                <label for="task-notes">notes</label>
+                <textarea id="task-notes" name="task-notes"></textarea>
+
+                <label for="task-priority">Priority:</label>
+                <select id="task-priority" name="task-priority" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+
+                <div class="checklist-section">
+                    <h3>Checklists</h3>
+                    <label for="task-checklistDescription" class="checklist-label">Description:</label>
+                    <div class="checklist-input-container">
+                        <input type="checkbox" id="task-checklist" name="task-checklist">
+                        <input type="text" id="task-checklistDescription" name="task-checklistDescription" placeholder="Enter task description">
+                    </div>
+                </div>
+
+                <button type="submit">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
