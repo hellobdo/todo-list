@@ -15,14 +15,17 @@
         </div>
 
         <!-- Template for a project -->
-        <template id="project-template">
+        <div id="project-template">
             <div class="project">
-                <h2>Project: <span class="project-title"></span></h2>
+                <div class="projectHeader">Project: <span class="project-title"></span></div>
+                <input type="text" id="project-title" name="project-title" placeholder="project name here">
+                <input type="text" id="project-description" name="project-description" placeholder="project description here">
+                <button id="createProjectBtn">Create</button>
                 <ul class="todo-list">
                     <!-- Todo items will be dynamically inserted here -->
                 </ul>
             </div>
-        </template>
+        </div>
 
         <!-- Template for a todo item -->
         <div class="create-task-form">

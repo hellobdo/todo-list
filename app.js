@@ -24,20 +24,14 @@ function createTask(title, description, dueDate, notes, priority, checklistDescr
 
 // Factory function to create projects
 function createProject(title, description) {
-    if(projects.length != 0) {
-        for (i = 0; i < projects.length; i++) {
-            if(projects[i].title === title) {
-                newTitle = prompt("please provide another title, that title is already in use");
-                createProject(newTitle, description);
-            } 
-        }
-    }
     const newProject = {
         id: generateID(),
         title: title,
         description: description
     }
     projects.push(newProject);
+    console.log(newProject);
+    console.log(projects);
     return newProject;
 }
 
@@ -69,63 +63,22 @@ function setPriority (task, index) {
 }
 
 // DOM generation
-
-const projectTemplate = document.getElementById('project-template');
-
-function renderProjects() {
-    projects.forEach(project => {
-        const projectClone = document.importNode(projectTemaplate.content, true);
-        const projectTitle = projectClone.querySelector('.project-title');
-        projectTitle.textContent = project.title;
-
-        const todoList = projectClone.querySelector('.todo-list');
-
-        project.todos.forEach(todo => {
-            const todoItem = document.createElement('li');
-            todoItem.classList.add('todo-item');
-            todoItem.textContent = `${todo.title} (Due: ${todo.dueDate})`;
-
-            todoItem.classList.add(getPriorityClass(todo.priority));
-            todoList.appendChild(todoItem);
-        });
-    projectsList.appendChild(projectClone);
-    })
+// Function to handle Enter key press only in the title input field
+function handleEnterKey(event) {
+    if (event.key === "Enter" && event.target.id === "project-title" || event.target.id === "project-description") {
+        handleCreateProject();
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderProjects();
-
-    const taskForm = document.getElementById('taskForm');
-    taskForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        addChecklistItem();
-    });
-});
-
-function addChecklistItem() {
-    const checklistDescriptionInput = document.getElementById('task-checklistDescription');
-    const checklistContainer = document.querySelector('.checklist-section');
-
-    const checklistItem = document.createElement('div');
-    checklistItem.classList.add('checklist-input-container');
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.name = 'task-checklist';
-    checkbox.id = `task-checklist-${Date.now()}`;
-
-    const textInput = document.createElement('input');
-    textInput.type = 'text';
-    textInput.name = 'task-checklistDescription';
-    textInput.value = checklistDescriptionInput.value;
-    textInput.placeholder = 'Enter task description';
-    textInput.classList.add('checklist-description');
-
-    checklistItem.appendChild(checkbox);
-    checklistItem.appendChild(textInput);
-
-    checklistContainer.appendChild(checklistItem);
-
-    // Clear the input field
-    checklistDescriptionInput.value = '';
+function handleCreateProject() {
+    createProject(projectTitle, projectDescription);
+    projectTitle.value = "";
+    projectDescription.value = "";
 }
+
+// Attach event listeners
+document.getElementById("createProjectBtn").addEventListener("click", handleCreateProject);
+const projectTitle = document.getElementById("project-title");
+const projectDescription = document.getElementById("project-description");
+projectTitle.addEventListener("keypress", handleEnterKey);
+projectDescription.addEventListener("keypress", handleEnterKey);
