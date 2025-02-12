@@ -2,6 +2,18 @@ let projects = [];
 let priority = ['high', 'medium', 'low'];
 let tasks = [];
 
+// DOM variables
+
+const projectTitle = document.getElementById("project-title");
+const createProjectBtn = document.getElementById("createProjectBtn");
+const projectDescription = document.getElementById("project-description");
+const projectsContainer = document.getElementById("projects-container");
+const listOfProjects = document.getElementById("list-of-projects");
+const warningProject = document.getElementById("warning-project");
+const projectsHeader = document.getElementById("projects-header");
+
+
+// backend functions
 // Factory function to create tasks
 function createTask(title, description, dueDate, notes, priority, checklistDescription, project) {
     tasks.push(
@@ -63,22 +75,48 @@ function setPriority (task, index) {
 }
 
 // DOM generation
+
+function checkProjectTitle () {
+    return projectTitle.value !== "" ? true : (warningProject.textContent = "please add a title to insert a project", false);
+}
+
+
 // Function to handle Enter key press only in the title input field
 function handleEnterKey(event) {
-    if (event.key === "Enter" && event.target.id === "project-title" || event.target.id === "project-description") {
-        handleCreateProject();
+    if (event.key === "Enter" && event.target.id === "project-title") {
+        if( checkProjectTitle() ) handleCreateProject();
     }
 }
 
 function handleCreateProject() {
-    createProject(projectTitle, projectDescription);
+    createProject(projectTitle.value, projectDescription.value);
     projectTitle.value = "";
     projectDescription.value = "";
+    handleProjectsDisplay();
+}
+
+function handleClick() {
+    if(checkProjectTitle()) handleCreateProject();
 }
 
 // Attach event listeners
-document.getElementById("createProjectBtn").addEventListener("click", handleCreateProject);
-const projectTitle = document.getElementById("project-title");
-const projectDescription = document.getElementById("project-description");
+
+
+// .addEventListener("click", handleCreateProject);
+createProjectBtn.addEventListener("click", handleClick);
 projectTitle.addEventListener("keypress", handleEnterKey);
 projectDescription.addEventListener("keypress", handleEnterKey);
+
+function handleProjectsDisplay() {
+    while (listOfProjects.firstChild) {
+        listOfProjects.removeChild(listOfProjects.firstChild);
+    }
+    projectsHeader.textContent = "List of Projects";
+    if (projects.length > 0) {
+        for (i = 0; i < projects.length; i++) {
+            let newDiv = document.createElement("div");
+            newDiv.textContent = projects[i].title;
+            listOfProjects.appendChild(newDiv);
+        }
+    }
+}
